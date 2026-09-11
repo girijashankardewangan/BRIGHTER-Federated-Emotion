@@ -32,3 +32,20 @@ Centralized vs. Federated DistilBERT for Multi-Label Emotion Classification on B
 ## Data
 - BRIGHTER English: https://huggingface.co/datasets/brighter-dataset/BRIGHTER-emotion-categories
 - ISEAR: https://github.com/bdotloh/isear_dataset
+
+## Figures
+
+All figures are available in the `figures/` directory (300 DPI PNG and vector PDF formats).
+
+- **fig1_brighter_comparison**: Bar chart of Macro/Micro F1 across C1, F1, F2, F3 on BRIGHTER
+- **fig2_brighter_boxplot**: Box plot showing seed-level variability
+- **fig3_cross_dataset**: Cross-dataset comparison (BRIGHTER vs ISEAR)
+- **fig4_per_seed**: Per-seed performance line plot
+- **fig5_stability**: Stability analysis (standard deviation comparison)
+
+## How to Reproduce
+
+1. Open the `train.py` script in Google Colab with T4 GPU.
+2. Install dependencies: `pip install transformers datasets scikit-learn`.
+3. Run the script. Results will be saved to `results.csv` and `progress.json`.
+4. To generate figures, use the analysis code with the saved CSV files.

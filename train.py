@@ -22,6 +22,7 @@ print(f"Using device: {DEVICE}")
 
 BRIGHTER_SEEDS = list(range(10))   # 0..9
 ISEAR_SEEDS = list(range(5))       # 0..4
+GOEMOTIONS_SEEDS = list(range(5))   # 0..4
 METHODS = ['C1', 'F1', 'F2', 'F3']
 
 BATCH_SIZE = 8
@@ -88,6 +89,41 @@ def load_isear():
     val = df.iloc[idx[train_end:val_end]].reset_index(drop=True)
     test = df.iloc[idx[val_end:]].reset_index(drop=True)
     print(f"ISEAR split: train={len(train)}, val={len(val)}, test={len(test)}")
+    return train, val, test
+
+
+
+
+# ------------------------------------------------------------
+# GOEMOTIONS LOADER
+# ------------------------------------------------------------
+def load_goemotions():
+    """Load GoEmotions and map to 5 target emotions."""
+    from datasets import load_dataset
+    import numpy as np
+
+    dataset = load_dataset("google-research-datasets/go_emotions", "simplified")
+    target_labels = ["joy", "anger", "fear", "sadness", "surprise"]
+    label_names = dataset["train"].features["labels"].feature.names
+    target_indices = [label_names.index(l) for l in target_labels]
+
+    def convert(example):
+        multihot = [0] * 5
+        for lbl in example["labels"]:
+            if lbl in target_indices:
+                multihot[target_indices.index(lbl)] = 1
+        return {"labels": multihot}
+
+    dataset = dataset.map(convert)
+    train = dataset["train"].to_pandas()[["text", "labels"]]
+    val = dataset["validation"].to_pandas()[["text", "labels"]]
+    test = dataset["test"].to_pandas()[["text", "labels"]]
+
+    train = train[train["labels"].apply(sum) > 0].reset_index(drop=True)
+    val = val[val["labels"].apply(sum) > 0].reset_index(drop=True)
+    test = test[test["labels"].apply(sum) > 0].reset_index(drop=True)
+
+    print(f"GoEmotions: train={len(train)}, val={len(val)}, test={len(test)}")
     return train, val, test
 
 
@@ -343,6 +379,9 @@ def main():
     print("Loading ISEAR...")
     is_train, is_val, is_test = load_isear()
 
+    print("Loading GoEmotions...")
+    go_train, go_val, go_test = load_goemotions()
+
     tasks = []
     for seed in BRIGHTER_SEEDS:
         for method in METHODS:
@@ -350,6 +389,9 @@ def main():
     for seed in ISEAR_SEEDS:
         for method in METHODS:
             tasks.append(('ISEAR', method, seed, is_train, is_val, is_test))
+    for seed in GOEMOTIONS_SEEDS:
+        for method in METHODS:
+            tasks.append(('GoEmotions', method, seed, go_train, go_val, go_test))
 
     for dataset, method, seed, train_df, val_df, test_df in tasks:
         key = (dataset, method, seed)

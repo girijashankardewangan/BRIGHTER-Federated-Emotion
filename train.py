@@ -98,9 +98,9 @@ def load_isear():
 # GOEMOTIONS LOADER
 # ------------------------------------------------------------
 def load_goemotions():
-    """Load GoEmotions and map to 5 target emotions."""
+    """Load GoEmotions with proper 5 label columns."""
     from datasets import load_dataset
-    import numpy as np
+    import pandas as pd
 
     dataset = load_dataset("google-research-datasets/go_emotions", "simplified")
     target_labels = ["joy", "anger", "fear", "sadness", "surprise"]
@@ -112,24 +112,30 @@ def load_goemotions():
         for lbl in example["labels"]:
             if lbl in target_indices:
                 multihot[target_indices.index(lbl)] = 1
-        return {"labels": multihot}
+        return {"multihot": multihot}
 
     dataset = dataset.map(convert)
-    train = dataset["train"].to_pandas()[["text", "labels"]]
-    val = dataset["validation"].to_pandas()[["text", "labels"]]
-    test = dataset["test"].to_pandas()[["text", "labels"]]
 
-    train = train[train["labels"].apply(sum) > 0].reset_index(drop=True)
-    val = val[val["labels"].apply(sum) > 0].reset_index(drop=True)
-    test = test[test["labels"].apply(sum) > 0].reset_index(drop=True)
+    def to_df(split):
+        df = dataset[split].to_pandas()
+        multihot_df = pd.DataFrame(
+            df["multihot"].tolist(),
+            columns=target_labels,
+            index=df.index
+        )
+        result = pd.concat([df[["text"]], multihot_df], axis=1)
+        result = result[result[target_labels].sum(axis=1) > 0].reset_index(drop=True)
+        return result
 
+    train = to_df("train")
+    val = to_df("validation")
+    test = to_df("test")
     print(f"GoEmotions: train={len(train)}, val={len(val)}, test={len(test)}")
+    print(f"Columns: {train.columns.tolist()}")
     return train, val, test
 
 
-# ------------------------------------------------------------
-# DATASET CLASS
-# ------------------------------------------------------------
+
 class EmotionDataset(Dataset):
     def __init__(self, texts, labels, tokenizer):
         self.texts = texts

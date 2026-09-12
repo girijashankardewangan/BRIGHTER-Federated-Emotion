@@ -1,0 +1,5 @@
+Dataset,method,Macro_Mean,Macro_Std,Micro_Mean,Micro_Std,Exact_Mean,Exact_Std
+ISEAR,C1,0.0,0.0,0.0,0.0,0.0,0.0
+ISEAR,F1,0.0167,0.0228,0.0322,0.0477,0.0205,0.0322
+ISEAR,F2,0.0167,0.0228,0.0322,0.0477,0.0205,0.0322
+ISEAR,F3,0.0,0.0,0.0,0.0,0.0,0.0

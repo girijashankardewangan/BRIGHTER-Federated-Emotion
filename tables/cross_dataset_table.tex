@@ -1,0 +1,24 @@
+\begin{table}[htbp]
+\centering
+\caption{Cross-dataset comparison of C1, F1, F2, and F3 over multiple seeds. 
+Values are mean \(\pm\) sample standard deviation. F3 collapses to zero on all datasets.}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Dataset} & \textbf{Method} & \textbf{Macro F1} & \textbf{Micro F1} & \textbf{Exact Match} \\
+\hline
+BRIGHTER & C1 & $0.1343 \pm 0.0264$ & $0.4077 \pm 0.0988$ & $0.1245 \pm 0.0037$ \\
+BRIGHTER & F1 & $0.1317 \pm 0.0403$ & $0.3498 \pm 0.1389$ & $0.1145 \pm 0.0256$ \\
+BRIGHTER & F2 & $0.1317 \pm 0.0403$ & $0.3498 \pm 0.1389$ & $0.1145 \pm 0.0256$ \\
+BRIGHTER & F3 & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ & $0.1055 \pm 0.0000$ \\
+ISEAR & C1 & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ \\
+ISEAR & F1 & $0.0167 \pm 0.0228$ & $0.0322 \pm 0.0477$ & $0.0205 \pm 0.0322$ \\
+ISEAR & F2 & $0.0167 \pm 0.0228$ & $0.0322 \pm 0.0477$ & $0.0205 \pm 0.0322$ \\
+ISEAR & F3 & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ \\
+GoEmotions & C1 & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ \\
+GoEmotions & F1 & $0.0011 \pm 0.0015$ & $0.0011 \pm 0.0015$ & $0.0006 \pm 0.0008$ \\
+GoEmotions & F2 & $0.0011 \pm 0.0015$ & $0.0011 \pm 0.0015$ & $0.0006 \pm 0.0008$ \\
+GoEmotions & F3 & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ & $0.0000 \pm 0.0000$ \\
+\hline
+\end{tabular}
+\label{tab:cross_dataset}
+\end{table}

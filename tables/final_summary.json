@@ -1,0 +1,23 @@
+{
+  "BRIGHTER": {
+    "seeds": 10,
+    "C1_macro": 0.1343,
+    "F1_macro": 0.1317,
+    "F2_macro": 0.1317,
+    "F3_macro": 0.0
+  },
+  "ISEAR": {
+    "seeds": 5,
+    "C1_macro": 0.0,
+    "F1_macro": 0.0167,
+    "F2_macro": 0.0167,
+    "F3_macro": 0.0
+  },
+  "GoEmotions": {
+    "seeds": 5,
+    "C1_macro": 0.0,
+    "F1_macro": 0.0011,
+    "F2_macro": 0.0011,
+    "F3_macro": 0.0
+  }
+}
